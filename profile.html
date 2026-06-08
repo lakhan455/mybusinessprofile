@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manish Kumar Sahu & Associates | CA Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{font-family:'Inter',sans-serif;scroll-behavior:smooth}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes glow{0%,100%{box-shadow:0 0 8px rgba(201,168,76,.2)}50%{box-shadow:0 0 20px rgba(201,168,76,.4)}}
+.fadeUp{animation:fadeUp .7s ease forwards}.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}.d5{animation-delay:.5s}
+.shimmer{background:linear-gradient(90deg,#C9A84C,#f0d98c,#C9A84C);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3s linear infinite}
+.float{animation:float 3s ease-in-out infinite}
+.glass{background:rgba(0,0,0,.02);backdrop-filter:blur(12px);border:1px solid rgba(0,0,0,.06)}
+.card{transition:all .4s ease}.card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(0,0,0,.08);border-color:rgba(201,168,76,.4)}
+.nav-a{position:relative}.nav-a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1.5px;background:#C9A84C;transition:width .3s}.nav-a:hover::after{width:100%}
+.btn-p{background:#C9A84C;color:#fff;transition:all .2s}.btn-p:hover{background:#b8963f;transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,.35)}
+.btn-o{border:1px solid rgba(201,168,76,.5);color:#C9A84C;transition:all .2s}.btn-o:hover{background:#C9A84C;color:#fff;border-color:#C9A84C}
+.sec{opacity:0;transform:translateY(24px);transition:all .7s ease}.sec.vis{opacity:1;transform:translateY(0)}
+.toast{animation:fadeUp .4s ease forwards}
+.mobile-m{transform:translateX(100%);transition:transform .3s ease}.mobile-m.on{transform:translateX(0)}
+.ca-logo{animation:glow 3s ease-in-out infinite}
+.social-icon{transition:all .3s ease}.social-icon:hover{transform:translateY(-3px);box-shadow:0 6px 16px rgba(201,168,76,.3)}
+</style>
+</head>
+<body class="bg-[#FAF7F2] text-[#1A1A1A] overflow-x-hidden">
+
+<!-- Toast -->
+<div id="toasts" class="fixed top-5 right-5 z-[100] flex flex-col gap-2"></div>
+
+<!-- Nav -->
+<nav id="nav" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+<div class="max-w-6xl mx-auto px-5 h-14 flex items-center justify-between">
+<a href="#hero" class="flex items-center gap-2.5">
+<div class="ca-logo w-9 h-9 rounded-md border border-[#C9A84C]/40 flex items-center justify-center bg-[#C9A84C]/10">
+<svg viewBox="0 0 36 36" class="w-7 h-7"><text x="4" y="26" font-family="Inter" font-weight="700" font-size="14" fill="#C9A84C">CA</text></svg>
+</div>
+<div class="hidden sm:block"><span class="text-sm font-semibold tracking-wide text-[#1A1A1A]">Manish Kumar Sahu</span><span class="block text-[9px] text-[#999] tracking-[.2em] uppercase">& Associates</span></div>
+</a>
+<div class="hidden md:flex items-center gap-7">
+<a href="#about" class="nav-a text-sm text-[#666] hover:text-[#1A1A1A] transition">About</a>
+<a href="#services" class="nav-a text-sm text-[#666] hover:text-[#1A1A1A] transition">Services</a>
+<a href="#team" class="nav-a text-sm text-[#666] hover:text-[#1A1A1A] transition">Team</a>
+<a href="#contact" class="btn-p px-5 py-2 rounded-md text-sm font-medium">Contact Us</a>
+</div>
+<button id="mobBtn" class="md:hidden text-[#1A1A1A] p-1.5 hover:bg-black/5 rounded-lg"><i data-lucide="menu" class="w-5 h-5"></i></button>
+</div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobMenu" class="mobile-m fixed inset-0 z-[60] bg-[#FAF7F2]/98 backdrop-blur-lg">
+<div class="flex justify-end p-5"><button id="mobClose" class="p-2 hover:bg-black/5 rounded-lg text-[#1A1A1A]"><i data-lucide="x" class="w-6 h-6"></i></button></div>
+<div class="flex flex-col items-center gap-7 pt-10">
+<a href="#hero" class="mm text-xl text-[#666] hover:text-[#1A1A1A]">Home</a>
+<a href="#about" class="mm text-xl text-[#666] hover:text-[#1A1A1A]">About</a>
+<a href="#services" class="mm text-xl text-[#666] hover:text-[#1A1A1A]">Services</a>
+<a href="#team" class="mm text-xl text-[#666] hover:text-[#1A1A1A]">Team</a>
+<a href="#contact" class="btn-p px-7 py-3 rounded-xl font-medium">Contact Us</a>
+</div>
+</div>
+
+<!-- Hero -->
+<section id="hero" class="relative min-h-screen flex items-center overflow-hidden bg-[#FAF7F2]">
+<div class="absolute inset-0 pointer-events-none" style="background-image:radial-gradient(rgba(0,0,0,.03) 1px,transparent 1px);background-size:36px 36px"></div>
+<div class="absolute -top-32 -right-32 w-80 h-80 bg-[#C9A84C]/[.04] rounded-full blur-3xl"></div>
+<div class="absolute bottom-20 -left-32 w-72 h-72 bg-[#C9A84C]/[.04] rounded-full blur-3xl"></div>
+<div class="max-w-6xl mx-auto px-5 pt-20 pb-14 relative z-10 w-full">
+<div class="grid lg:grid-cols-2 gap-10 items-center">
+<div class="order-2 lg:order-1">
+<div class="fadeUp opacity-0 d1"><div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass mb-6"><span class="w-1.5 h-1.5 bg-[#C9A84C] rounded-full animate-pulse"></span><span class="text-[11px] font-medium text-[#999] tracking-wide">CA & Legal Advisory</span></div></div>
+<h1 class="fadeUp opacity-0 d2 text-4xl sm:text-5xl lg:text-[3.4rem] font-semibold leading-[1.08] tracking-tight mb-5 text-[#1A1A1A]">Your Trusted Partner in <span class="shimmer">Tax & Compliance</span></h1>
+<p class="fadeUp opacity-0 d3 text-base text-[#888] leading-relaxed mb-8 max-w-lg">Comprehensive CA services — Statutory Audit, Income Tax, GST, TDS, Accounting & Corporate Compliance with 4+ years of expertise.</p>
+<div class="fadeUp opacity-0 d4 flex flex-wrap gap-3 mb-10">
+<a href="#contact" class="btn-p px-7 py-3.5 rounded-xl text-sm font-medium inline-flex items-center gap-2">Free Consultation <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+<a href="#services" class="btn-o px-7 py-3.5 rounded-xl text-sm font-medium inline-flex items-center gap-2">Services <i data-lucide="briefcase" class="w-4 h-4"></i></a>
+</div>
+<div class="fadeUp opacity-0 d5 grid grid-cols-3 gap-3 max-w-sm">
+<div class="glass rounded-xl p-3 text-center hover:bg-black/[.02] transition"><div class="text-xl font-semibold text-[#C9A84C]">4+</div><div class="text-[10px] text-[#aaa] mt-0.5">Yrs Experience</div></div>
+<div class="glass rounded-xl p-3 text-center hover:bg-black/[.02] transition"><div class="text-xl font-semibold text-[#C9A84C]">0</div><div class="text-[10px] text-[#aaa] mt-0.5">Clients Served</div></div>
+<div class="glass rounded-xl p-3 text-center hover:bg-black/[.02] transition"><div class="text-xl font-semibold text-[#C9A84C]">8+</div><div class="text-[10px] text-[#aaa] mt-0.5">Service Areas</div></div>
+</div>
+</div>
+<div class="order-1 lg:order-2 fadeUp opacity-0 d3">
+<div class="relative rounded-2xl overflow-hidden group border border-black/5">
+<img src="img.jpeg" alt="CA Services" class="w-full h-[360px] lg:h-[500px] object-cover transition-transform duration-700 group-hover:scale-105">
+<div class="absolute inset-0 bg-gradient-to-t from-[#FAF7F2]/60 via-transparent to-transparent"></div>
+</div>
+<div class="absolute -bottom-4 -left-4 glass rounded-xl p-3 float border-[#C9A84C]/20"><div class="flex items-center gap-2.5"><div class="w-9 h-9 rounded-lg bg-[#C9A84C]/10 flex items-center justify-center"><i data-lucide="shield-check" class="w-4 h-4 text-[#C9A84C]"></i></div><div><div class="text-xs font-medium text-[#1A1A1A]">ICAI Member</div><div class="text-[10px] text-[#999]">M.Com Qualified</div></div></div></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- About -->
+<section id="about" class="py-20 bg-[#F5F0EA] sec">
+<div class="max-w-6xl mx-auto px-5">
+<div class="grid lg:grid-cols-2 gap-12 items-center">
+<div class="relative"><img src="imag2.jpg" alt="About" class="rounded-2xl w-full h-[340px] object-cover border border-black/5"></div>
+<div>
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C9A84C]/10 border border-[#C9A84C]/20 mb-4"><span class="text-[10px] font-medium text-[#C9A84C] tracking-widest uppercase">About Us</span></div>
+<h2 class="text-3xl font-semibold tracking-tight mb-4 text-[#1A1A1A]">Professional Excellence in <span class="text-[#C9A84C]">Every Service</span></h2>
+<p class="text-[#888] leading-relaxed mb-4"><strong class="text-[#1A1A1A]">Manish Kumar Sahu & Associates</strong> — founded by <strong class="text-[#C9A84C]">CA Manish Kumar Sahu (M.Com)</strong> with 4+ years of experience in audit, taxation & compliance.</p>
+<p class="text-[#888] leading-relaxed mb-6">Co-founded by <strong class="text-[#C9A84C]">Advocate Gajendra Sahu</strong>, our firm combines financial expertise with legal acumen — a unique dual advantage for complete business solutions.</p>
+<div class="grid grid-cols-2 gap-3 mb-6">
+<div class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-[#C9A84C]"></i><span class="text-sm text-[#1A1A1A]">CA Certified</span></div>
+<div class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-[#C9A84C]"></i><span class="text-sm text-[#1A1A1A]">Legal Backing</span></div>
+<div class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-[#C9A84C]"></i><span class="text-sm text-[#1A1A1A]">M.Com Qualified</span></div>
+<div class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-[#C9A84C]"></i><span class="text-sm text-[#1A1A1A]">4+ Yrs Track Record</span></div>
+</div>
+<a href="#contact" class="btn-p px-5 py-2.5 rounded-lg text-sm font-medium inline-flex items-center gap-2">Schedule Meeting <i data-lucide="calendar" class="w-4 h-4"></i></a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Services -->
+<section id="services" class="py-20 bg-[#FAF7F2] sec">
+<div class="max-w-6xl mx-auto px-5">
+<div class="text-center mb-12">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C9A84C]/10 border border-[#C9A84C]/20 mb-4"><span class="text-[10px] font-medium text-[#C9A84C] tracking-widest uppercase">Services</span></div>
+<h2 class="text-3xl font-semibold tracking-tight mb-3 text-[#1A1A1A]">Comprehensive <span class="text-[#C9A84C]">Professional Services</span></h2>
+<p class="text-[#888] max-w-xl mx-auto text-sm">From statutory audits to GST advisory — every aspect of your financial and regulatory needs.</p>
+</div>
+<div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4" id="svcGrid"></div>
+</div>
+</section>
+
+<!-- Team -->
+<section id="team" class="py-20 bg-[#F5F0EA] sec">
+<div class="max-w-6xl mx-auto px-5">
+<div class="text-center mb-12">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C9A84C]/10 border border-[#C9A84C]/20 mb-4"><span class="text-[10px] font-medium text-[#C9A84C] tracking-widest uppercase">Our Team</span></div>
+<h2 class="text-3xl font-semibold tracking-tight text-[#1A1A1A]">Meet the <span class="text-[#C9A84C]">Leaders</span></h2>
+</div>
+<div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+<div class="card bg-white/60 border border-black/5 rounded-2xl overflow-hidden text-center">
+<div class="h-52 overflow-hidden"><img src="img.jpeg" alt="CA Manish Kumar Sahu" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"></div>
+<div class="p-5 -mt-8 relative z-10">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#C9A84C]/10 border border-[#C9A84C]/20 mb-2"><i data-lucide="crown" class="w-3 h-3 text-[#C9A84C]"></i><span class="text-[10px] font-medium text-[#C9A84C]">Founder</span></div>
+<h3 class="text-lg font-semibold text-[#1A1A1A]">CA Manish Kumar Sahu</h3>
+<p class="text-xs text-[#C9A84C] mb-2">M.Com | Chartered Accountant</p>
+<p class="text-xs text-[#999]">4+ years in audit, taxation, GST & compliance</p>
+</div>
+</div>
+<div class="card bg-white/60 border border-black/5 rounded-2xl overflow-hidden text-center">
+<div class="h-52 overflow-hidden"><img src="image.jpeg" alt="Advocate Gajendra Sahu" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"></div>
+<div class="p-5 -mt-8 relative z-10">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#C9A84C]/10 border border-[#C9A84C]/20 mb-2"><i data-lucide="scale" class="w-3 h-3 text-[#C9A84C]"></i><span class="text-[10px] font-medium text-[#C9A84C]">Co-Founder</span></div>
+<h3 class="text-lg font-semibold text-[#1A1A1A]">Adv. Gajendra Sahu</h3>
+<p class="text-xs text-[#C9A84C] mb-2">Legal Expert | Advocate</p>
+<p class="text-xs text-[#999]">Corporate law, litigation & legal advisory</p>
+</div>
+</div>
+<div class="card bg-white/60 border border-black/5 rounded-2xl overflow-hidden text-center">
+<div class="h-52 overflow-hidden"><img src="" alt="Rishabh Sahu" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"></div>
+<div class="p-5 -mt-8 relative z-10">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#C9A84C]/10 border border-[#C9A84C]/20 mb-2"><i data-lucide="user-check" class="w-3 h-3 text-[#C9A84C]"></i><span class="text-[10px] font-medium text-[#C9A84C]">Assistant</span></div>
+<h3 class="text-lg font-semibold text-[#1A1A1A]">Rishabh Sahu</h3>
+<p class="text-xs text-[#C9A84C] mb-2">Operations & Support</p>
+<p class="text-xs text-[#999]">Client coordination & operations</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="py-20 bg-[#FAF7F2] sec">
+<div class="max-w-6xl mx-auto px-5">
+<div class="text-center mb-12">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C9A84C]/10 border border-[#C9A84C]/20 mb-4"><span class="text-[10px] font-medium text-[#C9A84C] tracking-widest uppercase">Contact</span></div>
+<h2 class="text-3xl font-semibold tracking-tight mb-3 text-[#1A1A1A]">Get Your <span class="text-[#C9A84C]">Free Consultation</span></h2>
+<p class="text-[#888] max-w-lg mx-auto text-sm">Reach out — our team responds within 24 hours.</p>
+</div>
+<div class="grid lg:grid-cols-5 gap-6">
+<div class="lg:col-span-2 space-y-4">
+<div class="bg-white/60 border border-black/5 rounded-xl p-4 flex items-start gap-3 hover:border-[#C9A84C]/30 transition">
+<div class="w-10 h-10 rounded-lg bg-[#C9A84C]/10 flex items-center justify-center flex-shrink-0"><i data-lucide="phone" class="w-4 h-4 text-[#C9A84C]"></i></div>
+<div><div class="text-xs font-semibold text-[#1A1A1A] mb-0.5">Call Us</div><a href="tel:9636415595" class="text-sm text-[#C9A84C] hover:text-[#b8963f] transition">+91 9636415595</a><div class="text-[10px] text-[#aaa] mt-0.5">Mon–Sat, 10AM–7PM</div></div>
+</div>
+<div class="bg-white/60 border border-black/5 rounded-xl p-4 flex items-start gap-3 hover:border-[#C9A84C]/30 transition">
+<div class="w-10 h-10 rounded-lg bg-[#C9A84C]/10 flex items-center justify-center flex-shrink-0"><i data-lucide="mail" class="w-4 h-4 text-[#C9A84C]"></i></div>
+<div><div class="text-xs font-semibold text-[#1A1A1A] mb-0.5">Email</div><a href="mailto:camanishkumarsahu@gmail.com" class="text-sm text-[#C9A84C] hover:text-[#b8963f] transition break-all">camanishkumarsahu@gmail.com</a></div>
+</div>
+<div class="bg-white/60 border border-black/5 rounded-xl p-4 flex items-start gap-3 hover:border-[#C9A84C]/30 transition">
+<div class="w-10 h-10 rounded-lg bg-[#25D366]/10 flex items-center justify-center flex-shrink-0"><svg class="w-4 h-4 text-[#25D366]" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></div>
+<div><div class="text-xs font-semibold text-[#1A1A1A] mb-0.5">WhatsApp</div><a href="https://wa.me/919636415595" target="_blank" class="text-sm text-[#25D366] hover:text-[#1da851] transition">Chat Now</a></div>
+</div>
+<div class="bg-[#C9A84C]/[.06] border border-[#C9A84C]/15 rounded-xl p-5 text-center">
+<i data-lucide="zap" class="w-6 h-6 text-[#C9A84C] mx-auto mb-2"></i>
+<div class="text-xs font-semibold text-[#1A1A1A] mb-1">Urgent Notice?</div>
+<p class="text-[11px] text-[#999] mb-3">Tax/GST notice? Don't wait!</p>
+<a href="tel:9636415595" class="btn-p px-5 py-2 rounded-lg text-xs font-medium inline-flex items-center gap-1.5"><i data-lucide="phone-call" class="w-3.5 h-3.5"></i>Call Now</a>
+</div>
+</div>
+<form id="cForm" class="lg:col-span-3 bg-white/60 border border-black/5 rounded-2xl p-6">
+<h3 class="text-lg font-semibold mb-5 text-[#1A1A1A]">Send a Message</h3>
+<div class="grid sm:grid-cols-2 gap-3 mb-3">
+<input type="text" id="fName" required placeholder="Full Name *" class="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-black/8 rounded-lg text-sm text-[#1A1A1A] placeholder-[#bbb] focus:outline-none focus:border-[#C9A84C]/50 transition">
+<input type="tel" id="fPhone" required placeholder="Phone *" class="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-black/8 rounded-lg text-sm text-[#1A1A1A] placeholder-[#bbb] focus:outline-none focus:border-[#C9A84C]/50 transition">
+</div>
+<input type="email" id="fEmail" required placeholder="Email *" class="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-black/8 rounded-lg text-sm text-[#1A1A1A] placeholder-[#bbb] focus:outline-none focus:border-[#C9A84C]/50 transition mb-3">
+<select id="fService" required class="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-black/8 rounded-lg text-sm text-[#1A1A1A] focus:outline-none focus:border-[#C9A84C]/50 transition mb-3 appearance-none">
+<option value="">Select Service *</option>
+<option>Statutory Audit</option><option>Income Tax Audit</option><option>GST Services</option><option>Income Tax Compliance</option><option>TDS/TCS Compliance</option><option>Accounting & Bookkeeping</option><option>Corporate Compliance</option><option>Other Services</option>
+</select>
+<textarea id="fMsg" rows="3" placeholder="Your message..." class="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-black/8 rounded-lg text-sm text-[#1A1A1A] placeholder-[#bbb] focus:outline-none focus:border-[#C9A84C]/50 transition mb-4 resize-none"></textarea>
+<button type="submit" id="subBtn" class="btn-p w-full py-3 rounded-xl text-sm font-medium flex items-center justify-center gap-2"><span id="subTxt">Send Message</span><i data-lucide="send" class="w-4 h-4" id="subIco"></i><svg id="subSpn" class="hidden animate-spin w-4 h-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg></button>
+</form>
+</div>
+</div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-[#1A1A1A] border-t border-white/5 py-10">
+<div class="max-w-6xl mx-auto px-5">
+<div class="grid md:grid-cols-3 gap-8 mb-8">
+<div>
+<div class="flex items-center gap-2 mb-3">
+<div class="ca-logo w-8 h-8 rounded-md border border-[#C9A84C]/30 flex items-center justify-center bg-[#C9A84C]/10"><svg viewBox="0 0 36 36" class="w-6 h-6"><text x="4" y="26" font-family="Inter" font-weight="700" font-size="14" fill="#C9A84C">CA</text></svg></div>
+<div><span class="text-sm font-semibold text-white">Manish Kumar Sahu</span><span class="block text-[9px] text-zinc-600 tracking-[.2em] uppercase">& Associates</span></div>
+</div>
+<p class="text-xs text-zinc-500 leading-relaxed max-w-xs mb-4">Trusted partner for audit, taxation, GST & regulatory compliance.</p>
+<!-- Social Icons - Each Unique -->
+<div class="flex gap-2 flex-wrap">
+<!-- WhatsApp -->
+<a href="https://wa.me/919636415595" target="_blank" class="social-icon w-9 h-9 rounded-lg bg-[#25D366]/10 border border-[#25D366]/20 flex items-center justify-center hover:bg-[#25D366]" title="WhatsApp">
+<svg class="w-4 h-4 text-[#25D366] hover:text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+<!-- Email -->
+<a href="mailto:camanishkumarsahu@gmail.com" class="social-icon w-9 h-9 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center hover:bg-red-500" title="Email">
+<svg class="w-4 h-4 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+</a>
+<!-- Phone -->
+<a href="tel:9636415595" class="social-icon w-9 h-9 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center hover:bg-blue-500" title="Call">
+<svg class="w-4 h-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+</a>
+<!-- Instagram -->
+<a href="https://www.instagram.com/camanishkumarsahu?utm_source=qr" class="social-icon w-9 h-9 rounded-lg bg-[#E4405F]/10 border border-[#E4405F]/20 flex items-center justify-center hover:bg-[#E4405F]" title="Instagram">
+<svg class="w-4 h-4 text-[#E4405F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+</a>
+<!-- LinkedIn -->
+<a href="https://www.linkedin.com/in/ca-manish-kumar-sahu-3a3b70206?utm_source=share_via&utm_content=profile&utm_medium=member_ios" class="social-icon w-9 h-9 rounded-lg bg-[#0A66C2]/10 border border-[#0A66C2]/20 flex items-center justify-center hover:bg-[#0A66C2]" title="LinkedIn">
+<svg class="w-4 h-4 text-[#0A66C2]" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+</a>
+<!-- Twitter / X -->
+<a href="#" class="social-icon w-9 h-9 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center hover:bg-white" title="Twitter / X">
+<svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+</a>
+<!-- Facebook -->
+<a href="#" class="social-icon w-9 h-9 rounded-lg bg-[#1877F2]/10 border border-[#1877F2]/20 flex items-center justify-center hover:bg-[#1877F2]" title="Facebook">
+<svg class="w-4 h-4 text-[#1877F2]" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+</a>
+<!-- YouTube -->
+<a href="#" class="social-icon w-9 h-9 rounded-lg bg-[#FF0000]/10 border border-[#FF0000]/20 flex items-center justify-center hover:bg-[#FF0000]" title="YouTube">
+<svg class="w-4 h-4 text-[#FF0000]" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+</a>
+</div>
+</div>
+<div><h4 class="text-xs font-semibold text-white uppercase tracking-wider mb-3">Quick Links</h4><ul class="space-y-2"><li><a href="#hero" class="text-xs text-zinc-500 hover:text-[#C9A84C] transition">Home</a></li><li><a href="#about" class="text-xs text-zinc-500 hover:text-[#C9A84C] transition">About</a></li><li><a href="#services" class="text-xs text-zinc-500 hover:text-[#C9A84C] transition">Services</a></li><li><a href="#team" class="text-xs text-zinc-500 hover:text-[#C9A84C] transition">Team</a></li><li><a href="#contact" class="text-xs text-zinc-500 hover:text-[#C9A84C] transition">Contact</a></li></ul></div>
+<div><h4 class="text-xs font-semibold text-white uppercase tracking-wider mb-3">Services</h4><ul class="space-y-2"><li><a href="#services" class="text-xs text-zinc-500 hover:text-[#C9A84C] transition">Statutory Audit</a></li><li><a href="#services" class="text-xs text-zinc-500 hover:text-[#C9A84C] transition">Income Tax Audit</a></li><li><a href="#services" class="text-xs text-zinc-500 hover:text-[#C9A84C] transition">GST Services</a></li><li><a href="#services" class="text-xs text-zinc-500 hover:text-[#C9A84C] transition">TDS/TCS Compliance</a></li><li><a href="#services" class="text-xs text-zinc-500 hover:text-[#C9A84C] transition">Corporate Compliance</a></li></ul></div>
+</div>
+<div class="pt-6 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-3">
+<p class="text-[10px] text-zinc-600">&copy; 2025 Manish Kumar Sahu & Associates. All rights reserved.</p>
+<p class="text-[10px] text-zinc-600">Designed & Developed by <a href="https://lakhan455.github.io/profile-/" target="_blank" class="text-[#C9A84C] hover:text-[#f0d98c] transition font-medium">Lakhan Prajapat</a></p>
+</div>
+</div>
+</footer>
+
+<!-- Service Modal -->
+<div id="svcModal" class="fixed inset-0 z-[80] hidden">
+<div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeModal()"></div>
+<div class="absolute inset-3 sm:inset-8 md:inset-16 lg:inset-y-10 lg:inset-x-28 bg-[#FAF7F2] border border-black/10 rounded-2xl flex flex-col overflow-hidden text-[#1A1A1A]">
+<div class="flex items-center justify-between p-5 border-b border-black/5"><h3 id="mTitle" class="text-lg font-semibold"></h3><button onclick="closeModal()" class="w-8 h-8 rounded-lg hover:bg-black/5 flex items-center justify-center"><i data-lucide="x" class="w-4 h-4 text-[#999]"></i></button></div>
+<div id="mBody" class="p-5 overflow-y-auto flex-1"></div>
+<div class="p-4 border-t border-black/5"><a href="#contact" onclick="closeModal()" class="btn-p px-5 py-2.5 rounded-lg text-sm font-medium inline-flex items-center gap-2">Enquire Now <i data-lucide="arrow-right" class="w-4 h-4"></i></a></div>
+</div>
+</div>
+
+<!-- WhatsApp Float -->
+<a href="https://wa.me/919636415595" target="_blank" class="fixed bottom-5 right-5 z-40 w-12 h-12 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg shadow-[#25D366]/30 hover:scale-110 transition-all">
+<svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+// ===== SUPABASE =====
+const SB_URL='YOUR_SUPABASE_URL_HERE',SB_KEY='YOUR_SUPABASE_ANON_KEY_HERE';
+let sb=null;
+if(SB_URL!=='YOUR_SUPABASE_URL_HERE'&&SB_KEY!=='YOUR_SUPABASE_ANON_KEY_HERE'){try{sb=window.supabase.createClient(SB_URL,SB_KEY);console.log('✅ Supabase ready')}catch(e){console.error('❌ SB fail',e)}}
+
+// ===== SERVICES =====
+const SVC=[
+{t:"Statutory Audit",ic:"file-search",items:["Companies Act audit under 2013","Financial statement audit (Ind AS/GAAP)","Books verification & internal controls","Audit report preparation & issuance","Statutory compliance reporting","Internal financial controls (IFC) review"]},
+{t:"Income Tax Audit",ic:"receipt",items:["Tax audit u/s 44AB of IT Act","Form 3CA/3CB/3CD filing","Books review for tax compliance","Disallowances & tax implications","TDS/TCS compliance assistance","Tax-efficient business advisory"]},
+{t:"GST Services",ic:"indian-rupee",items:["Registration, amendment & cancellation","Return filing (GSTR-1, 3B, 9, 9C)","Reconciliation & compliance review","GST audit & annual return","ITC review & optimization","Classification & valuation advisory","Notices & departmental proceedings","Refund applications & follow-up"]},
+{t:"IT Compliance",ic:"calculator",items:["ITR filing for all entities","Tax planning & advisory","Taxable income computation","Representation before IT Authorities","Scrutiny assessment support","Advance tax & self-assessment"]},
+{t:"TDS/TCS",ic:"file-text",items:["TAN registration & amendments","Deduction & deposit compliance","Quarterly return filing","Certificate issuance & reconciliation","Default notice handling"]},
+{t:"Accounting",ic:"book-open",items:["Books of accounts maintenance","Financial statements preparation","Bank reconciliation & scrutiny","Accounting system setup","MIS & management reporting"]},
+{t:"Corporate Compliance",ic:"building-2",items:["ROC filings & annual compliance","Company/LLP/Partnership incorporation","Resolutions, minutes & records","Regulatory authority compliance","Secretarial & governance support"]},
+{t:"Other Services",ic:"layers",items:["Due diligence & certifications","Project report preparation","Net worth & turnover certifications","Loan & bank finance documentation","Business advisory & consultancy","Government regulation compliance"]}
+];
+
+const grid=document.getElementById('svcGrid');
+SVC.forEach((s,i)=>{
+const d=document.createElement('div');d.className='card bg-white/60 border border-black/5 rounded-xl p-5 cursor-pointer';d.onclick=()=>openModal(i);
+d.innerHTML=`<div class="w-11 h-11 rounded-lg bg-[#C9A84C]/10 flex items-center justify-center mb-3"><i data-lucide="${s.ic}" class="w-5 h-5 text-[#C9A84C]"></i></div><h3 class="text-sm font-semibold mb-2 text-[#1A1A1A]">${s.t}</h3><p class="text-xs text-[#999] mb-3 line-clamp-2">${s.items.slice(0,3).join(' • ')}</p><div class="flex items-center text-[#C9A84C] text-xs font-medium">Details <i data-lucide="arrow-right" class="w-3 h-3 ml-1"></i></div>`;
+grid.appendChild(d)});
+
+// ===== MODAL =====
+function openModal(i){
+const s=SVC[i];document.getElementById('mTitle').textContent=s.t;
+let h='<div class="space-y-3">';
+s.items.forEach((it,j)=>{h+=`<div class="bg-white/60 border border-black/5 rounded-lg p-3.5 flex items-start gap-3"><div class="w-7 h-7 rounded bg-[#C9A84C]/10 flex items-center justify-center flex-shrink-0"><span class="text-xs font-semibold text-[#C9A84C]">${j+1}</span></div><span class="text-sm text-[#666] pt-0.5">${it}</span></div>`});
+h+='</div>';document.getElementById('mBody').innerHTML=h;
+document.getElementById('svcModal').classList.remove('hidden');document.body.style.overflow='hidden';lucide.createIcons()}
+function closeModal(){document.getElementById('svcModal').classList.add('hidden');document.body.style.overflow=''}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+// ===== TOAST =====
+function toast(msg,type='success'){
+const c=document.getElementById('toasts'),t=document.createElement('div');
+const cl={success:'bg-[#1A1A1A] border-[#C9A84C]/30 text-[#C9A84C]',error:'bg-red-900 border-red-500/30 text-red-300',info:'bg-[#1A1A1A] border-white/10 text-white',warning:'bg-yellow-900 border-yellow-500/30 text-yellow-300'};
+const ic={success:'check-circle',error:'x-circle',info:'info',warning:'alert-triangle'};
+t.className=`toast flex items-center gap-2 px-4 py-3 rounded-lg border ${cl[type]} backdrop-blur-lg shadow-xl max-w-xs`;
+t.innerHTML=`<i data-lucide="${ic[type]}" class="w-4 h-4 flex-shrink-0"></i><span class="text-xs font-medium">${msg}</span>`;
+c.appendChild(t);lucide.createIcons();setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(()=>t.remove(),300)},3500)}
+
+// ===== FORM =====
+document.getElementById('cForm').addEventListener('submit',async e=>{
+e.preventDefault();const n=document.getElementById('fName').value.trim(),p=document.getElementById('fPhone').value.trim(),em=document.getElementById('fEmail').value.trim(),sv=document.getElementById('fService').value,ms=document.getElementById('fMsg').value.trim();
+if(!n||!p||!em||!sv){toast('Please fill all required fields','warning');return}
+const btn=document.getElementById('subBtn'),txt=document.getElementById('subTxt'),ico=document.getElementById('subIco'),spn=document.getElementById('subSpn');
+txt.textContent='Sending...';ico.classList.add('hidden');spn.classList.remove('hidden');btn.disabled=true;btn.classList.add('opacity-70');
+const data={name:n,phone:p,email:em,service:sv,message:ms,created_at:new Date().toISOString()};let ok=false;
+if(sb){try{const{error}=await sb.from('contacts').insert([data]);if(error)throw error;ok=true;toast('Message sent! We\'ll contact you soon.','success')}catch(err){toast('Error: '+err.message,'error')}}
+else{console.log('📝 Form:',data);toast('Message recorded! (Configure Supabase to save)','info');ok=true}
+txt.textContent='Send Message';ico.classList.remove('hidden');spn.classList.add('hidden');btn.disabled=false;btn.classList.remove('opacity-70');
+if(ok)document.getElementById('cForm').reset()});
+
+// ===== NAV SCROLL =====
+window.addEventListener('scroll',()=>{const n=document.getElementById('nav');if(window.scrollY>40){n.classList.add('bg-[#FAF7F2]/90','backdrop-blur-lg','border-b','border-black/5')}else{n.classList.remove('bg-[#FAF7F2]/90','backdrop-blur-lg','border-b','border-black/5')}});
+
+// ===== MOBILE =====
+document.getElementById('mobBtn').onclick=()=>{document.getElementById('mobMenu').classList.add('on');document.body.style.overflow='hidden'};
+document.getElementById('mobClose').onclick=()=>{document.getElementById('mobMenu').classList.remove('on');document.body.style.overflow=''};
+document.querySelectorAll('.mm').forEach(a=>a.addEventListener('click',()=>{document.getElementById('mobMenu').classList.remove('on');document.body.style.overflow=''}));
+
+// ===== SCROLL ANIM =====
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')}),{threshold:.1});
+document.querySelectorAll('.sec').forEach(el=>obs.observe(el));
+
+lucide.createIcons();
+</script>
+</body>
+</html>
